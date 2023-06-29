@@ -3,15 +3,61 @@ const db = require('./db/connection');
 
 const choicesMain = ['View All Departments', 'View All Roles', 'View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role'];
 
+const navHome = async () => {
+    await inquirer
+        .prompt([
+            {
+                type: 'confirm',
+                name: 'confirm',
+                message: 'Would you like to return to the main menu?'
+            }
+        ])
+        .then(( {confirm} ) => {
+            if(!confirm){
+                console.log('Exiting program...');
+                process.exit(0);
+            }
+            init();
+        })
+        .catch((err) => {
+            if (err){ 
+                console.log('An error has occurred. Please try again.');
+            }
+        });
+}
+
+const addData = async (table) => {
+    await inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'department',
+                message: 'Department Name:'
+            }
+        ])
+        .then(( {department} ) =>{
+            db.query(`INSERT INTO department (name) VALUES ('${department}')`, (err, res) => {
+                console.log(`'${department}' has been added to the list of departments.`);
+                navHome();
+            });
+        })
+        .catch((err) => {
+            if(err){
+                console.log('An error has occurred. Please try again.');
+            }
+        });
+    
+}
+
 // initialize the program
-function init(){
+async function init(){
     // console navigation
-    inquirer
+    await inquirer
         .prompt([
             { // Main Navigation
                 type: 'list',
                 name: 'selection',
-                message: 'What would you like to do?',
+                message: 'Select an Option:',
                 choices: choicesMain
             }
         ])
@@ -24,7 +70,10 @@ function init(){
                     db.query(`SELECT name AS Departments FROM department`, (err, res) => {
                         if(err){ 
                             console.log('Unable to view data.'); 
-                        } else { console.table(res); }
+                        } else { 
+                            console.table(res);
+                            navHome();
+                        }
                     });
                     break;
 
@@ -33,21 +82,28 @@ function init(){
                     db.query(`SELECT title AS Roles FROM role`, (err, res) => {
                         if(err){
                             console.log('Unable to view data.');
-                        } else { console.table(res); }
+                        } else { 
+                            console.table(res);
+                            navHome();
+                        }
                     });
                     break;
 
                 case choicesMain[2]:
                     console.log('Viewing all employees...');
-                    db.query(`SELECT first_name AS First, last_name AS Last FROM employee`, (err, res) => {
+                    db.query(`SELECT first_name AS First_Name, last_name AS Last_Name FROM employee`, (err, res) => {
                         if(err){
                             console.log('Unable to view data.');
-                        } else { console.table(res); }
+                        } else { 
+                            console.table(res);
+                            navHome();
+                        }
                     });
                     break;
 
                 case choicesMain[3]:
                     console.log('Adding department...');
+                    addData();
                     break;
 
                 case choicesMain[4]:

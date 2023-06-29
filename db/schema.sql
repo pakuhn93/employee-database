@@ -11,8 +11,8 @@ CREATE TABLE department(
 CREATE TABLE role(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    department_id INT, -- uses a department id
-    salary INT
+    salary INT,
+    department_id INT -- uses a department id
 );
 
 CREATE TABLE employee(
@@ -20,7 +20,7 @@ CREATE TABLE employee(
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     role_id INT, -- uses a role id
-    manager INT -- uses a manager id
+    manager_id INT -- uses a manager id
     -- salary INT, -- pull this value from role as well
     -- department_id INT -- uses a department id | can use a join related to role_id to pull department_id
 );
