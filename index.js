@@ -77,24 +77,10 @@ const addData = async (table) => {
                     type: 'input',
                     name: 'department',
                     message: 'Enter the department id of the new role:'
-                    // validate: function validateDepartment(input){
-                    //     const myQuery = `EXISTS(SELECT 1 FROM department WHERE name = '${input}')`;
-                    //     console.log(`\n${myQuery}`);
-                    //     db.query(`SELECT ${myQuery}`, (err, res) => {
-                    //         if(err){console.log(err);}
-                    //         const resStr = JSON.stringify(res);
-                    //         console.log(`\n${resStr}`);
-                    //         if(resStr.includes(':0}]', 0)){
-                    //             return `\n'${input}' is not a valid department.`;
-                    //         } else { 
-                    //             return true;  
-                    //         }
-                    //     });
-                    // }
                 }
             ])
             .then(( {role, salary, department} ) => {
-                db.query(`INSERT INTO role (title, salary, department_id) VALUES (${role}, ${salary}, ${department})`, (err, res) => {
+                db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${role}', ${salary}, ${department})`, (err, res) => {
                     console.log(`${role} successfully added to the list of roles`);
                     navHome();
                 });
@@ -199,3 +185,4 @@ async function init(){
 
 // initializes the program
 init();
+
