@@ -92,6 +92,35 @@ const addData = async (table) => {
             })
             break;
         case menuEmployee:
+            await inquirer 
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'first',
+                        message: "Employee's first name:"
+                    },
+                    {
+                        type: 'input',
+                        name: 'last',
+                        message: "Employee's last name:"
+                    },
+                    {
+                        type: 'input',
+                        name: 'role',
+                        message: "Employee's job title:"
+                    },
+                    {
+                        type: 'input',
+                        name: 'manager',
+                        message: "Employee's manager"
+                    }
+                ])
+                .then(( {first, last, role, manager} ) => {
+                    db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first}', '${last}', ${role}, ${manager})`, (err, res) => {
+                        console.log(`'${first} ${last}' has successfully been added to the list of employees.`);
+                        navHome();
+                    });
+                })
             break;
         default:
             break;
