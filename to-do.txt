@@ -1,0 +1,19 @@
+departments
+- dept name
+- dept id
+
+roles
+- job title
+- role id
+- dept belongs to
+- salary
+
+employee
+- employee id
+- first name
+- last name
+- job title
+- departments
+- salaries
+- managers (that employee reports to)
+
